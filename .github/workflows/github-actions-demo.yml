@@ -17,9 +17,9 @@ jobs:
         id: install
       - name: Install redis
         run: |
-          helm upgrade --install --timeout 600s redis redis-cluster --repo https://charts.bitnami.com/bitnami --namespace redis --create-namespace
+          helm upgrade --install --wait --timeout 600s redis redis-cluster --repo https://charts.bitnami.com/bitnami --namespace redis --create-namespace
       - name: Install ingress
         run: |
-          helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
+          helm upgrade --install --wait ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
       - run: |
           kubectl get all -A
