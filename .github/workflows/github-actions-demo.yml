@@ -15,5 +15,11 @@ jobs:
           echo "environment-kubeconfig:" ${KUBECONFIG}
       - uses: azure/setup-helm@v1
         id: install
+      - name: Install redis
+        run: |
+          helm upgrade --install --timeout 600s redis redis-cluster --repo https://charts.bitnami.com/bitnami --namespace redis --create-namespace
+      - name: Install ingress
+        run: |
+          helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
       - run: |
-          helm --version
+          kubectl get all -A
