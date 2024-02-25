@@ -1,21 +1,16 @@
 name: Success - Set job enviroment dynamically using object format
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+         type: environment
+         description: Select the environment    
 jobs:
-  set_environment:
-    outputs:
-      my_env: ${{ steps.setenv.outputs.my_env }}
-    runs-on: ubuntu-latest
-    steps:
-      - id: setenv
-        run: echo "my_env=production" >> $GITHUB_OUTPUT
-
   use_outputs_environemnt:
-    needs: set_environment
     environment:
-      name: ${{ needs.set_environment.outputs.my_env }}
+      name:  ${{ inputs.environment }}
       url: http://test.com
     runs-on: ubuntu-latest
     steps:
       - name: Testing job environment
-        run: echo "Hello From Production Envrionment."
+        run: echo "Hello From  ${{ inputs.environment }} Envrionment."
